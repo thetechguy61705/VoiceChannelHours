@@ -5,6 +5,7 @@ module.exports = {
 	description: 'Returns the bot ping (in milliseconds)',
 	aliases: ['p'],
 	options: [],
+	enabled: true,
 	run: async (bot, message, args) => {
 		
 		let m = await message.channel.send(`Contacting Discord..`)

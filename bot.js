@@ -7,9 +7,6 @@ let bot = new Client();
 bot.login('token here');
 
 
-//Command handler (Slash commands, no message handler commands)
-const SlashCommands = require('./SlashCommandClient.js');
-const SlashCommandClient = new SlashCommands(bot.token, bot.application.id)
 
 fs.readdir("./commands/", (err, files) => {
     if (err) return console.error(err);
@@ -22,13 +19,18 @@ fs.readdir("./commands/", (err, files) => {
 
         if (!command.name)
             return console.log(`1 command was not loaded because of an error.`)
-            
-        // Add logic that saves to Discord.
-            
-        console.log(command.name + ' is ready & saved to Discord. Commands can take up to 10 minutes to update if they are not guild based commands.');
+
+        bot.commands.set(command.name, {
+            name: command.name,
+            aliases: command.aliases,
+            description: command.description,
+            enabled: command.enabled,
+            run: command.run
+        });
+
+        console.log(command.name + ' is ready has been saved to memory.');
     });
 });
-
 
 
 
@@ -40,3 +42,55 @@ bot.once('ready', () => {
 	The bot currently has ${bot.users.cache.size} cached users.`)
 });
 
+
+bot.on('message', async message => {
+	if (message.partial) {
+        await message.fetch();
+    }
+
+
+    if (message.author.bot)
+        return;
+
+    if (message.channel.type === 'dm')
+        return;
+
+    let prefixes = [`<@${bot.user.id}>`, `<@!${bot.user.id}>`, '!']
+    let prefixUsed;
+    prefixes.forEach(p => {
+        if (message.content.toLowerCase().startsWith(p)) {
+            prefixUsed = p;
+        }
+    });
+
+    //Handle command
+    if (message.content.indexOf(prefixUsed)) return;
+    let args = message.content.slice(prefixUsed.length).trim().split(/ +/g);
+
+
+    let getCommandFromMessageValue = args.shift().toLowerCase();
+
+
+
+
+    let command = bot.commands.find(c => {
+        return c.name.toLowerCase() === getCommandFromMessageValue.toLowerCase() || c.aliases.includes(getCommandFromMessageValue.toLowerCase());
+    })
+
+
+
+    if (command) {
+        try {
+            if (!command.enabled)
+                return message.channel.send(`This command is disabled for maintenance.`);
+
+
+            command.run(bot, message, args, prefixUsed);
+
+        } catch (error) {
+            message.channel.send(`Something went wrong while running that command. Please try again later.`)
+            console.log(error);
+
+        }
+    
+})

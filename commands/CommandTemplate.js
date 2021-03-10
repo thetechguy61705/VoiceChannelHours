@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'CommandTemplate',
 	description: 'The template the developer uses to create slash commands.',
-	options: [],
+	enabled: true,
 	aliases: [],
 	run: async (bot, message, args) => {
 		
