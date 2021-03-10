@@ -1,11 +1,26 @@
 const { Client } = require('discord.js');
 const fs = require('fs');
+const Enmap = require('enmap');
+
 
 
 let bot = new Client();
 
 bot.login('token here');
 
+
+//Crete enamps
+
+bot.trackingUsers = new Enmap({
+	name: 'trackingUsers',
+	polling: true
+});
+
+bot.userData = new Enmap({
+	name: 'userData',
+	fetchAll: false,
+	polling: true
+});
 
 
 fs.readdir("./commands/", (err, files) => {
@@ -93,4 +108,48 @@ bot.on('message', async message => {
 
         }
     
-})
+});
+
+
+bot.on('voiceStateUpdate', (oldState, newState) => {
+	
+	// Handle each event individual voice-action
+	console.log(oldState.member.user.tag + ' has updated their voice state.')
+	
+	// User is connecting to a voice-channel
+	if (!oldState.channel && newState.channel) {
+		
+	}
+	
+	// User is moved or switches voice-channels
+	if (oldState.channel && newState.channel) {
+		
+	}
+	
+	// User disconnects/is disconnected from a voice-channel
+	
+	if (oldState.channel && !newState.channel) {
+		
+	}
+	
+	// User is muted -> then unmutes
+	if (oldState.mute === true && newState.mute === false) {
+		
+	}
+	
+	// User is unmuted -> then mutes
+	
+	if (oldState.mute === false && newState.mute === true) {
+		
+	}
+	
+	
+	
+	// User is either self defeaned/undefeaned or server defeaned/undefeaned
+	if (oldState.deaf !== newState.deaf) {
+		
+	}
+	
+	// 
+	
+});

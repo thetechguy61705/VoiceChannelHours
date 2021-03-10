@@ -17,7 +17,7 @@ module.exports = {
 			.setColor('BLUE')
 			.addField(`API Delay:`, `\`${m.createdTimestamp - message.createdTimestamp}\` **ms**`)
 			.addField(`💓 Heartbeat:`, `\`${Math.floor(bot.ws.ping)}\` **ms**`)
-			.addField(`# Of users being in call:`, `\`No users are being monitored at this time.\``)
+			.addField(`# Of users being in a tracked call:`, `\`No users are being monitored at this time.\``)
 			.addField(`# Of users with data:`, `\`0\``)
 			
 			
