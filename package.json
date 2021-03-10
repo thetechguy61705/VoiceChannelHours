@@ -1,0 +1,28 @@
+{
+  "name": "VoiceChannelHours",
+  "version": "1.0.0",
+  "description": "Compete with your friends to see who chats in voice-channels more.",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thetechguy61705/VoiceChannelHours.git"
+  },
+  "keywords": [],
+  "author": "thetechguy0010",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thetechguy61705/VoiceChannelHours/issues"
+  },
+  "homepage": "https://github.com/thetechguy61705/VoiceChannelHours#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "better-sqlite3": "^7.1.2",
+    "discord.js": "^12.5.1",
+    "enmap": "^5.8.4",
+    "express": "^4.17.1"
+  }
+}
