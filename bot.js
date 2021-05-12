@@ -1,10 +1,12 @@
-const { Client } = require('discord.js');
+const { Client, Collection } = require('discord.js');
 const fs = require('fs');
 const Enmap = require('enmap');
 
 
 
 let bot = new Client();
+bot.commands = new Collection();
+
 
 bot.login('token here');
 
@@ -107,6 +109,9 @@ bot.on('message', async message => {
             console.log(error);
 
         }
+        
+      
+    }
     
 });
 
@@ -118,6 +123,9 @@ bot.on('voiceStateUpdate', (oldState, newState) => {
 	
 	// User is connecting to a voice-channel
 	if (!oldState.channel && newState.channel) {
+		
+		bot.emit('userJoinChannel', newState, newState.member);
+		
 		
 	}
 	
